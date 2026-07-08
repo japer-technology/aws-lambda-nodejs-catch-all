@@ -4,6 +4,8 @@
 
 This project provides a universal AWS Lambda entry point implemented in Node.js. It inspects each incoming event and automatically routes it to the appropriate handler based on the invocation source.
 
+A universal AWS Lambda entry point implemented in Node.js. It inspects each incoming event and automatically routes it to the appropriate handler based on the invocation source.Catch-all AWS Lambda (Node.js) function that receives, logs, and routes every AWS event trigger through a single, unified handler.
+
 ## Installation
 
 Clone the repository and install the development dependencies used for
