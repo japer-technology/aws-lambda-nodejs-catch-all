@@ -1,0 +1,14 @@
+{
+  "eventSource": "aws:kafka",
+  "eventSourceArn": "arn:aws:kafka:us-east-1:123456789012:cluster/example/uuid",
+  "records": {
+    "topic-0": [
+      {
+        "topic": "topic",
+        "partition": 0,
+        "offset": 15,
+        "value": "SGVsbG8="
+      }
+    ]
+  }
+}

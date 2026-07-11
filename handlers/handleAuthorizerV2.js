@@ -13,11 +13,14 @@ import collectInvocation from '../collectInvocation.js';
  *  - `requestContext.http.method` contains the HTTP method.
  * The Lambda `context` object is also available for metadata.
  *
+ * This reference handler denies access until application-specific authorization
+ * logic replaces it.
+ *
  * See https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html
  */
 export default async function handleAuthorizerV2(event, context) {
   const invocation = collectInvocation(event, context, 'authorizerV2');
   logDebug('invocation', invocation);
   logDebug('handleAuthorizerV2', { routeArn: event.routeArn, requestId: context.awsRequestId });
-  return { isAuthorized: true, context: {} };
+  return { isAuthorized: false, context: {} };
 }

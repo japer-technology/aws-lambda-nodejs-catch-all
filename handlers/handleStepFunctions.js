@@ -31,6 +31,6 @@ export default async function handleStepFunctions(event, context) {
   logDebug('invocation', invocation);
   logDebug('handleStepFunctions', { requestId: context.awsRequestId });
   const input = event.input ?? event.Execution?.Input ?? event;
-  console.log('StepFunctions input:', input);
+  logDebug('StepFunctions input', input);
   return { status: 'SUCCEEDED', output: input };
 }

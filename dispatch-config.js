@@ -17,7 +17,9 @@ function getRecordsSource(event) {
  * Ordered dispatch rules evaluated by the main handler.  Each rule provides a
  * `check` predicate to determine if an incoming event matches and the path to
  * the handler module responsible for processing that event type.  Rules are
- * evaluated sequentially until a match is found.
+ * evaluated sequentially until a match is found. Keep more specific shapes
+ * before broader shapes so that a generic rule cannot shadow a specialized
+ * handler.
  */
 export default [
   { check: e => e.request && e.session && e.context?.System, handler: './handlers/handleAlexa.js' },
@@ -43,6 +45,9 @@ export default [
   { check: e => getRecordsSource(e) === 'aws:dynamodb', handler: './handlers/handleDynamoDB.js' },
   { check: e => getRecordsSource(e) === 'aws:kinesis', handler: './handlers/handleKinesis.js' },
   { check: e => getRecordsSource(e) === 'aws:ses', handler: './handlers/handleSes.js' },
+  { check: e => e.eventSource === 'aws:kafka' || e.eventSource === 'SelfManagedKafka', handler: './handlers/handleKafka.js' },
+  { check: e => e.eventSource === 'aws:amazonmq', handler: './handlers/handleAmazonMq.js' },
+  { check: e => e.eventSource === 'aws:docdb', handler: './handlers/handleDocumentDb.js' },
   { check: e => e.source === 'aws.events', handler: './handlers/handleScheduled.js' },
   { check: e => e.source && e['detail-type'], handler: './handlers/handleEventBridge.js' },
 ];

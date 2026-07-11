@@ -17,6 +17,6 @@ export default async function handleS3(event, context) {
   const invocation = collectInvocation(event, context, 's3');
   logDebug('invocation', invocation);
   logDebug('handleS3', { records: event.Records?.length, requestId: context.awsRequestId });
-  event.Records?.forEach(r => console.log('S3:', r.s3.bucket.name, r.s3.object.key));
+  event.Records?.forEach(r => logDebug('S3', { bucket: r.s3.bucket.name, key: r.s3.object.key }));
   return { processed: event.Records?.length || 0 };
 }

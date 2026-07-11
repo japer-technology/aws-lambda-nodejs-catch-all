@@ -19,6 +19,6 @@ export default async function handleConfigRule(event, context) {
   const invocation = collectInvocation(event, context, 'configRule');
   logDebug('invocation', invocation);
   logDebug('handleConfigRule', { resultToken: event.resultToken, requestId: context.awsRequestId });
-  console.log('Config rule invoke:', event.invokingEvent);
+  logDebug('Config rule invoke', event.invokingEvent);
   return { complianceType: 'COMPLIANT', annotation: 'Default OK' };
 }

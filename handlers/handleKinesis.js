@@ -19,7 +19,7 @@ export default async function handleKinesis(event, context) {
   logDebug('handleKinesis', { records: event.Records?.length, requestId: context.awsRequestId });
   event.Records?.forEach(r => {
     const data = Buffer.from(r.kinesis.data, 'base64').toString('utf8');
-    console.log('Kinesis:', data);
+    logDebug('Kinesis', data);
   });
   return { processed: event.Records?.length || 0 };
 }
