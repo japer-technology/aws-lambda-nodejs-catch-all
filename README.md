@@ -2,9 +2,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![AI](https://img.shields.io/badge/Assisted-Development-2b2bff?logo=openai&logoColor=white) 
 
-This project provides a universal AWS Lambda entry point implemented in Node.js. It inspects each incoming event and automatically routes it to the appropriate handler based on the invocation source.
-
-A universal AWS Lambda entry point implemented in Node.js. It inspects each incoming event and automatically routes it to the appropriate handler based on the invocation source.Catch-all AWS Lambda (Node.js) function that receives, logs, and routes every AWS event trigger through a single, unified handler.
+This project provides a universal AWS Lambda entry point implemented in Node.js.
+It captures the complete event and invocation context, then routes recognized
+AWS event shapes to source-specific reference handlers. Unknown event shapes
+still reach the fallback handler, so no invocation source is excluded.
 
 ## Installation
 
@@ -15,23 +16,24 @@ testing and linting:
 npm install
 ```
 
-This project requires **Node.js 20 or later**, as specified in
-`package.json`.
+This project supports **Node.js 22 or later**. Deployments should use the current
+AWS Lambda **Node.js 24** runtime.
 
 
 ## TypeScript
 
-Type declaration files are included for all handlers. Run `npm run build` to regenerate them after making changes.
+Type declaration files are included for all handlers and are maintained beside
+their JavaScript modules. Run `npm run typecheck` to validate them.
 
 ## Deployment
 
 Zip the contents of the repository and upload them using the AWS CLI:
 
 ```bash
-zip -r function.zip index.mjs handlers/
+zip -r function.zip index.mjs dispatcher.js dispatch-config.js logger.js collectInvocation.js handlers/
 aws lambda create-function \
   --function-name universal-handler \
-  --runtime nodejs20.x \
+  --runtime nodejs24.x \
   --handler index.handler \
   --zip-file fileb://function.zip \
   --role <role-arn>
@@ -40,7 +42,7 @@ aws lambda create-function \
 To update an existing function:
 
 ```bash
-zip -r function.zip index.mjs handlers/
+zip -r function.zip index.mjs dispatcher.js dispatch-config.js logger.js collectInvocation.js handlers/
 aws lambda update-function-code \
   --function-name universal-handler \
   --zip-file fileb://function.zip
@@ -66,6 +68,9 @@ The handler recognizes and dispatches events from:
 - CloudFormation custom resources
 - Cognito triggers
 - SQS, SNS, S3, DynamoDB Streams, Kinesis Streams, SES
+- Amazon MSK and self-managed Apache Kafka
+- Amazon MQ (ActiveMQ and RabbitMQ)
+- Amazon DocumentDB change streams
 - EventBridge / CloudWatch Events
 - Scheduled events
 - Fallback for other events
@@ -152,7 +157,8 @@ for (const { check, handler: h } of dispatchTable) {
 }
 ```
 
-If no entry matches, `handleDefault.js` is called.
+If no entry matches, `handleDefault.js` captures the invocation and is called.
+Dispatch is first-match-wins, so keep specialized checks before broader checks.
 
 ### Adding a new handler
 
@@ -169,6 +175,14 @@ If no entry matches, `handleDefault.js` is called.
 Run the unit tests with:
 
 ```bash
+npm test
+```
+
+Run all local validation with:
+
+```bash
+npm run lint
+npm run typecheck
 npm test
 ```
 
@@ -199,6 +213,14 @@ aws lambda invoke \
 
 ## Debugging
 
-Set `DEBUG=1` (or any non-empty value) to enable additional log output. This can help troubleshoot event dispatching and handler execution.
+Set `DEBUG=1` (or any non-empty value) to log the complete event and normalized
+Lambda context. This can help troubleshoot event dispatching and handler
+execution, but payloads can contain credentials, personal data, or message
+contents. Enable complete capture only where log access and retention are
+appropriately controlled.
 
 When invocation data is collected, functions on the `context` object are invoked. If a context function throws an error, its message is captured and included in the logged context instead of halting execution.
+
+The included API Gateway authorizer handlers intentionally deny every request.
+Replace them with application-specific authentication and authorization logic
+before using them.

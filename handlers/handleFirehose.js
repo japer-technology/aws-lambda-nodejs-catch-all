@@ -18,6 +18,6 @@ export default async function handleFirehose(event, context) {
   const invocation = collectInvocation(event, context, 'firehose');
   logDebug('invocation', invocation);
   logDebug('handleFirehose', { count: event.records?.length, requestId: context.awsRequestId });
-  const output = event.records.map(r => ({ recordId: r.recordId, result: 'Ok', data: r.data }));
+  const output = event.records?.map(r => ({ recordId: r.recordId, result: 'Ok', data: r.data })) ?? [];
   return { records: output };
 }

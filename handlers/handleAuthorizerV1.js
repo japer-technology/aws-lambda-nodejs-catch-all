@@ -13,6 +13,9 @@ import collectInvocation from '../collectInvocation.js';
  *  - `methodArn`: ARN of the API method being called.
  * The Lambda `context` object provides metadata such as `awsRequestId`.
  *
+ * This reference handler denies access until application-specific authorization
+ * logic replaces it.
+ *
  * See https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html
  */
 export default async function handleAuthorizerV1(event, context) {
@@ -23,7 +26,7 @@ export default async function handleAuthorizerV1(event, context) {
     principalId: 'user',
     policyDocument: {
       Version: '2012-10-17',
-      Statement: [{ Action: 'execute-api:Invoke', Effect: 'Allow', Resource: event.methodArn }],
+      Statement: [{ Action: 'execute-api:Invoke', Effect: 'Deny', Resource: event.methodArn }],
     },
   };
 }

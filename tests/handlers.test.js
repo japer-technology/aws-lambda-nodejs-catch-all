@@ -81,7 +81,7 @@ describe('handler dispatch', () => {
       principalId: 'user',
       policyDocument: {
         Version: '2012-10-17',
-        Statement: [{ Action: 'execute-api:Invoke', Effect: 'Allow', Resource: 'arn' }]
+        Statement: [{ Action: 'execute-api:Invoke', Effect: 'Deny', Resource: 'arn' }]
       }
     });
   });
@@ -90,7 +90,7 @@ describe('handler dispatch', () => {
     const event = { version: '2.0', type: 'REQUEST', routeArn: 'arn', requestContext: { http: { method: 'GET' } } };
     const context = { awsRequestId: '1' };
     const result = await handler(event, context);
-    expect(result).toEqual({ isAuthorized: true, context: {} });
+    expect(result).toEqual({ isAuthorized: false, context: {} });
   });
 
   test('handles HTTP API v2 event', async () => {
@@ -211,6 +211,42 @@ describe('handler dispatch', () => {
     const event = { Records: [ { eventSource: 'aws:ses', ses: { mail: { messageId: '1', source: 'a@b.com', commonHeaders: { subject: 'Hi' } }, receipt: {} } } ] };
     const context = { awsRequestId: '1' };
     const result = await handler(event, context);
+    expect(result).toEqual({ processed: 1 });
+  });
+
+  test('handles Amazon MSK events', async () => {
+    const event = {
+      eventSource: 'aws:kafka',
+      records: { 'topic-0': [{ value: 'SGVsbG8=' }, { value: 'V29ybGQ=' }] },
+    };
+    const result = await handler(event, { awsRequestId: '1' });
+    expect(result).toEqual({ processed: 2 });
+  });
+
+  test('handles self-managed Kafka events', async () => {
+    const event = {
+      eventSource: 'SelfManagedKafka',
+      records: { 'topic-0': [{ value: 'SGVsbG8=' }] },
+    };
+    const result = await handler(event, { awsRequestId: '1' });
+    expect(result).toEqual({ processed: 1 });
+  });
+
+  test('handles Amazon MQ events', async () => {
+    const event = {
+      eventSource: 'aws:amazonmq',
+      messagesByQueue: { 'queue::/': [{ data: 'SGVsbG8=' }] },
+    };
+    const result = await handler(event, { awsRequestId: '1' });
+    expect(result).toEqual({ processed: 1 });
+  });
+
+  test('handles Amazon DocumentDB events', async () => {
+    const event = {
+      eventSource: 'aws:docdb',
+      events: [{ event: { operationType: 'insert' } }],
+    };
+    const result = await handler(event, { awsRequestId: '1' });
     expect(result).toEqual({ processed: 1 });
   });
 

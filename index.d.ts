@@ -4,8 +4,9 @@
 import type { Context } from 'aws-lambda';
 
 /** Generic AWS Lambda handler signature. */
-export type LambdaHandler = (event: any, context: Context) => Promise<any>;
+export type LambdaHandler<Event = unknown, Result = unknown> =
+  (event: Event, context: Context) => Promise<Result>;
 
 /** Entrypoint exported by this package. */
-export declare function handler(event: any, context: Context): Promise<any>;
+export declare function handler(event: unknown, context: Context): Promise<unknown>;
 export default handler;
