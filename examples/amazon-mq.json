@@ -1,0 +1,12 @@
+{
+  "eventSource": "aws:amazonmq",
+  "eventSourceArn": "arn:aws:mq:us-east-1:123456789012:broker:example:b-uuid",
+  "messagesByQueue": {
+    "queue::/": [
+      {
+        "data": "SGVsbG8=",
+        "messageID": "ID:example"
+      }
+    ]
+  }
+}

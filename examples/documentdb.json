@@ -1,0 +1,14 @@
+{
+  "eventSource": "aws:docdb",
+  "eventSourceArn": "arn:aws:rds:us-east-1:123456789012:cluster:example",
+  "events": [
+    {
+      "event": {
+        "_id": {
+          "_data": "example"
+        },
+        "operationType": "insert"
+      }
+    }
+  ]
+}

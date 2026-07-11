@@ -28,6 +28,9 @@ import handleKinesis from './handlers/handleKinesis.js';
 import handleSes from './handlers/handleSes.js';
 import handleEventBridge from './handlers/handleEventBridge.js';
 import handleScheduled from './handlers/handleScheduled.js';
+import handleKafka from './handlers/handleKafka.js';
+import handleAmazonMq from './handlers/handleAmazonMq.js';
+import handleDocumentDb from './handlers/handleDocumentDb.js';
 
 /**
  * Mapping of handler module paths to the concrete handler implementations.
@@ -59,6 +62,9 @@ const handlerMap = {
   './handlers/handleSes.js': handleSes,
   './handlers/handleEventBridge.js': handleEventBridge,
   './handlers/handleScheduled.js': handleScheduled,
+  './handlers/handleKafka.js': handleKafka,
+  './handlers/handleAmazonMq.js': handleAmazonMq,
+  './handlers/handleDocumentDb.js': handleDocumentDb,
 };
 
 /**

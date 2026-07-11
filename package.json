@@ -1,28 +1,34 @@
 {
-  "name": "aws-lambda-nodejs-handler",
+  "name": "aws-lambda-nodejs-catch-all",
   "version": "1.0.0",
-  "description": "This is a handler for all AWS Lambda invocations.",
+  "description": "A universal Node.js handler that captures and routes AWS Lambda events.",
   "main": "index.mjs",
   "scripts": {
     "lint": "eslint .",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "package": "npm pack",
     "invoke": "node bin/invoke.js",
-    "build": "tsc"
+    "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
+  "keywords": [
+    "aws",
+    "lambda",
+    "events",
+    "serverless"
+  ],
   "author": "",
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "devDependencies": {
-    "@eslint/js": "^9.29.0",
-    "eslint": "^9.29.0",
-    "jest": "^30.0.0",
-    "typescript": "^5.4.2",
-    "@types/aws-lambda": "^8.10.122"
+    "@eslint/js": "10.0.1",
+    "@types/aws-lambda": "8.10.162",
+    "eslint": "10.7.0",
+    "globals": "17.7.0",
+    "jest": "30.4.2",
+    "typescript": "7.0.2"
   },
   "files": [
     "index.mjs",
