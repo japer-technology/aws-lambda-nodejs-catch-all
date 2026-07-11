@@ -18,6 +18,6 @@ export default async function handleDynamoDB(event, context) {
   const invocation = collectInvocation(event, context, 'dynamoDB');
   logDebug('invocation', invocation);
   logDebug('handleDynamoDB', { records: event.Records?.length, requestId: context.awsRequestId });
-  event.Records?.forEach(r => console.log('DynamoDB:', r.dynamodb));
+  event.Records?.forEach(r => logDebug('DynamoDB', r.dynamodb));
   return { processed: event.Records?.length || 0 };
 }

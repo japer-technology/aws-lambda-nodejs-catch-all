@@ -19,6 +19,6 @@ export default async function handleIoTRule(event, context) {
   const invocation = collectInvocation(event, context, 'ioTRule');
   logDebug('invocation', invocation);
   logDebug('handleIoTRule', { topic: event.topic, requestId: context.awsRequestId });
-  console.log('IoT topic:', event.topic);
+  logDebug('IoT topic', event.topic);
   return { processed: true };
 }

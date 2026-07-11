@@ -17,6 +17,6 @@ export default async function handleSqs(event, context) {
   const invocation = collectInvocation(event, context, 'sqs');
   logDebug('invocation', invocation);
   logDebug('handleSqs', { messages: event.Records?.length, requestId: context.awsRequestId });
-  event.Records?.forEach(r => console.log('SQS:', r.body));
+  event.Records?.forEach(r => logDebug('SQS', r.body));
   return { processed: event.Records?.length || 0 };
 }

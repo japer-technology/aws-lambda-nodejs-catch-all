@@ -19,6 +19,6 @@ export default async function handleAppSync(event, context) {
   const invocation = collectInvocation(event, context, 'appSync');
   logDebug('invocation', invocation);
   logDebug('handleAppSync', { field: event.info?.fieldName, requestId: context.awsRequestId });
-  console.log('AppSync field:', event.info.fieldName);
+  logDebug('AppSync field', event.info.fieldName);
   return null;
 }

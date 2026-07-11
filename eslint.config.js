@@ -13,4 +13,10 @@ export default [
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
   },
+  {
+    files: ['tests/**/*.js'],
+    languageOptions: {
+      globals: globals.jest,
+    },
+  },
 ];

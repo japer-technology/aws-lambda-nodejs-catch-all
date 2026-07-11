@@ -20,6 +20,6 @@ export default async function handleWebSocket(event, context) {
   const invocation = collectInvocation(event, context, 'webSocket');
   logDebug('invocation', invocation);
   logDebug('handleWebSocket', { routeKey: event.requestContext?.routeKey, requestId: context.awsRequestId });
-  console.log('WebSocket route:', event.requestContext.routeKey);
+  logDebug('WebSocket route', event.requestContext.routeKey);
   return { statusCode: 200, body: 'WebSocket message received' };
 }

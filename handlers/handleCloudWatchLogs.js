@@ -22,7 +22,7 @@ export default async function handleCloudWatchLogs(event, context) {
     const compressed = Buffer.from(event.awslogs.data, 'base64');
     const json = zlib.gunzipSync(compressed).toString('utf8');
     const payload = JSON.parse(json);
-    payload.logEvents?.forEach(e => console.log('CloudWatch:', e.message));
+    payload.logEvents?.forEach(e => logDebug('CloudWatch', e.message));
     return payload.logEvents || [];
   } catch (err) {
     console.error('Failed to process CloudWatch Logs', err);

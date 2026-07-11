@@ -18,6 +18,6 @@ export default async function handleCognito(event, context) {
   const invocation = collectInvocation(event, context, 'cognito');
   logDebug('invocation', invocation);
   logDebug('handleCognito', { trigger: event.triggerSource, requestId: context.awsRequestId });
-  console.log('Cognito trigger:', event.triggerSource);
+  logDebug('Cognito trigger', event.triggerSource);
   return event;
 }

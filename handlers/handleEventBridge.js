@@ -17,6 +17,6 @@ export default async function handleEventBridge(event, context) {
   const invocation = collectInvocation(event, context, 'eventBridge');
   logDebug('invocation', invocation);
   logDebug('handleEventBridge', { detailType: event['detail-type'], requestId: context.awsRequestId });
-  console.log('EventBridge event:', event['detail-type']);
+  logDebug('EventBridge event', event['detail-type']);
   return { processed: true };
 }

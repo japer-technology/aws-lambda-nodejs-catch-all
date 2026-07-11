@@ -18,7 +18,7 @@ export default async function handleCustomResource(event, context) {
   const invocation = collectInvocation(event, context, 'customResource');
   logDebug('invocation', invocation);
   logDebug('handleCustomResource', { requestType: event.RequestType, requestId: context.awsRequestId });
-  console.log('Custom Resource request:', event.RequestType);
+  logDebug('Custom Resource request', event.RequestType);
 
   if (!event.ResponseURL) {
     throw new Error('Missing ResponseURL');
