@@ -188,10 +188,14 @@ npm test
 
 ## CLI Usage
 
-Invoke the handler locally with a JSON event file:
+Invoke the handler locally with a JSON event file. You can run it directly
+with `npx` or after installing the package globally:
 
 ```bash
-npm run invoke -- examples/http-v1.json
+npx aws-lambda-nodejs-handler invoke examples/http-v1.json
+# or
+npm install -g aws-lambda-nodejs-handler
+invoke examples/http-v1.json
 ```
 
 Sample payloads for all supported sources live under the `examples/` directory.

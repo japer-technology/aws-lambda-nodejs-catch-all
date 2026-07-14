@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A universal Node.js handler that captures and routes AWS Lambda events.",
   "main": "index.mjs",
+  "bin": {
+    "invoke": "bin/invoke.js"
+  },
   "scripts": {
     "lint": "eslint .",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
